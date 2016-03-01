@@ -136,7 +136,6 @@ SYS_DT="$(/bin/date +%Y-%m-%d-%H:%M:%S)"
 /bin/cp -f /etc/ipsec.conf "/etc/ipsec.conf.old-$SYS_DT" 2>/dev/null
 cat > /etc/ipsec.conf <<EOF
 version 2.0
-
 config setup
   dumpdir=/var/run/pluto/
   nat_traversal=yes
@@ -145,7 +144,6 @@ config setup
   protostack=netkey
   nhelpers=0
   interfaces=%defaultroute
-
 conn vpnpsk
   connaddrfamily=ipv4
   auto=add
@@ -182,12 +180,10 @@ EOF
 cat > /etc/xl2tpd/xl2tpd.conf <<EOF
 [global]
 port = 1701
-
 ;debug avp = yes
 ;debug network = yes
 ;debug state = yes
 ;debug tunnel = yes
-
 [lns default]
 ip range = 192.168.42.10-192.168.42.250
 local ip = 192.168.42.1
@@ -231,13 +227,11 @@ EOF
 if ! grep -qs "hwdsl2 VPN script" /etc/sysctl.conf; then
 /bin/cp -f /etc/sysctl.conf "/etc/sysctl.conf.old-$SYS_DT" 2>/dev/null
 cat >> /etc/sysctl.conf <<EOF
-
 # Added by hwdsl2 VPN script
 kernel.msgmnb = 65536
 kernel.msgmax = 65536
 kernel.shmmax = 68719476736
 kernel.shmall = 4294967296
-
 net.ipv4.ip_forward = 1
 net.ipv4.tcp_syncookies = 1
 net.ipv4.conf.all.accept_source_route = 0
@@ -254,7 +248,6 @@ net.ipv4.conf.lo.rp_filter = 0
 net.ipv4.conf.eth0.rp_filter = 0
 net.ipv4.icmp_echo_ignore_broadcasts = 1
 net.ipv4.icmp_ignore_bogus_error_responses = 1
-
 net.core.wmem_max = 12582912
 net.core.rmem_max = 12582912
 net.ipv4.tcp_rmem = 10240 87380 12582912
@@ -373,7 +366,6 @@ if ! grep -qs "hwdsl2 VPN script" /etc/rc.local; then
 /bin/cp -f /etc/rc.local "/etc/rc.local.old-$SYS_DT" 2>/dev/null
 /bin/sed --follow-symlinks -i -e '/^exit 0/d' /etc/rc.local
 cat >> /etc/rc.local <<EOF
-
 # Added by hwdsl2 VPN script
 /usr/sbin/service fail2ban restart || /bin/true
 /usr/sbin/service ipsec start
